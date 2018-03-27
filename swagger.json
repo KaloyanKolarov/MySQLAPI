@@ -113,14 +113,14 @@
         },
         "/users/{userEmail}": {
             "parameters": [{
-                "name": "userId",
+                "name": "userEmail",
                 "in": "path",
                 "required": true,
-                "description": "ID of user that we want to find",
+                "description": "Email of the user that we want to delete",
                 "type": "string"
             }],
             "delete": {
-                "summary": "Delete user with given ID",
+                "summary": "Delete user with given email address",
                 "tags": [
                     "Users"
                 ],
@@ -128,7 +128,7 @@
                     "200": {
                         "description": "User is deleted",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/User Delete"
                         }
                     }
                 }
@@ -190,6 +190,20 @@
             "example": {
                 "Error": false,
                 "Message": "Updated the password for email kaloyan@kaloyan.org"
+            }
+        },
+        "User Delete": {
+            "properties": {
+                "Error": {
+                    "type": "boolean"
+                },
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Error": false,
+                "Message": "Deleted the user with email kaloyan@kaloyan.org"
             }
         },
         "User ID": {
