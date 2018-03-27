@@ -1,0 +1,265 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Yet Another Node.js Blogg Application API",
+        "description": "Yet Another Node.js Blogg Application API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [{
+        "name": "Users",
+        "description": "API for users in the system"
+    }],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Create new user in system",
+                "parameters": [{
+                    "name": "user",
+                    "in": "body",
+                    "description": "User that we want to create",
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user is created",
+                        "schema": {
+                            "$ref": "#/definitions/User Response"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Users List"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update user with given email",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [{
+                    "name": "user",
+                    "in": "body",
+                    "description": "User with new values of properties",
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User is updated",
+                        "schema": {
+                            "$ref": "#/definitions/User Email"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "parameters": [{
+                "name": "userId",
+                "in": "path",
+                "required": true,
+                "description": "ID of user that we want to find",
+                "type": "string"
+            }],
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user with given ID",
+                "responses": {
+                    "200": {
+                        "description": "User is found",
+                        "schema": {
+                            "$ref": "#/definitions/User ID"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userEmail}": {
+            "parameters": [{
+                "name": "userId",
+                "in": "path",
+                "required": true,
+                "description": "ID of user that we want to find",
+                "type": "string"
+            }],
+            "delete": {
+                "summary": "Delete user with given ID",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "password": {
+                    "type": "string",
+                    "uniqueItems": false
+                }
+            },
+            "example": {
+                "email": "kaloyan@kaloyan.org",
+                "password": "123456"
+            }
+        },
+        "User Response": {
+            "properties": {
+                "Error": {
+                    "type": "boolean"
+                },
+                "Message": {
+                    "type": "string"
+                },
+                "User": {
+                    "type": "string"
+                },
+                "User_ID": {
+                    "type": "integer"
+                }
+            },
+            "example": {
+                "Error": false,
+                "Message": "User Added!",
+                "User": "kaloyan@kaloyan.org",
+                "User_ID": "1"
+            }
+        },
+        "User Email": {
+            "properties": {
+                "Error": {
+                    "type": "boolean"
+                },
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Error": false,
+                "Message": "Updated the password for email kaloyan@kaloyan.org"
+            }
+        },
+        "User ID": {
+            "properties": {
+                "Error": {
+                    "type": "boolean"
+                },
+                "Message": {
+                    "type": "string"
+                },
+                "Users": {
+                    "type": "array"
+                }
+            },
+            "example": {
+                "Error": false,
+                "Message": "Success",
+                "Users": [{
+                    "user_id": 12,
+                    "user_email": "kaloyan@kaloyan.org",
+                    "user_password": "202cb962ac59075b964b07152d234b70",
+                    "user_join_date": "2018-03-27T08:38:28.000Z"
+                }]
+            }
+        },
+        "Users List": {
+            "properties": {
+                "Error": {
+                    "type": "boolean"
+                },
+                "Message": {
+                    "type": "string"
+                },
+                "Users": {
+                    "type": "array"
+                }
+            },
+            "example": {
+                "Error": false,
+                "Message": "Success",
+                "Users": [{
+                        "user_id": 12,
+                        "user_email": "kaloyan@kaloyan.org",
+                        "user_password": "202cb962ac59075b964b07152d234b70",
+                        "user_join_date": "2018-03-27T08:38:28.000Z"
+                    },
+                    {
+                        "user_id": 14,
+                        "user_email": "test@kaloyan.org",
+                        "user_password": "e10adc3949ba59abbe56e057f20f883e",
+                        "user_join_date": "2018-03-27T08:59:28.000Z"
+                    },
+                    {
+                        "user_id": 16,
+                        "user_email": "test1@kaloyan.org",
+                        "user_password": "e10adc3949ba59abbe56e057f20f883e",
+                        "user_join_date": "2018-03-27T09:00:13.000Z"
+                    },
+                    {
+                        "user_id": 17,
+                        "user_email": "test2@kaloyan.org",
+                        "user_password": "e10adc3949ba59abbe56e057f20f883e",
+                        "user_join_date": "2018-03-27T09:18:18.000Z"
+                    }
+                ]
+            }
+        },
+        "Users": {
+            "type": "array",
+            "$ref": "#/definitions/User"
+        }
+    }
+}
