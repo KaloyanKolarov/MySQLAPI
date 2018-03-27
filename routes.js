@@ -142,31 +142,15 @@ module.exports = function(router, connection, md5) {
 
     // delete user by email
     router.delete("/users/:email", function(req, res) {
-        if (validator.validate(req.body.email)) {
-            var query = "DELETE from ?? WHERE ??=?";
-            var table = ["user_login", "user_email", req.params.email];
-            query = mysql.format(query, table);
-            connection.query(query, function(err, rows) {
-                if (err) {
-                    res.json({ 
-                        "Error": true, 
-                        "Message": err.message
-                    
-                    });
-                } else {
-                    if (rows.affectedRows === 1) {
-                        res.json({ 
-                            "Error": false, 
-                            "Message": "Deleted the user with email " + req.params.email
-                        });                        
-                    }
-                    else {
-                        res.json({
-                            "Message": "No such user"
-                        })
-                    }
-                }
-            });
-        }
+        var query = "DELETE from ?? WHERE ??=?";
+        var table = ["user_login", "user_email", req.params.email];
+        query = mysql.format(query, table);
+        connection.query(query, function(err, rows) {
+            if (err) {
+                res.json({ "Error": true, "Message": "Error executing MySQL query" });
+            } else {
+                res.json({ "Error": false, "Message": "Deleted the user with email " + req.params.email });
+            }
+        });
     });
 }
