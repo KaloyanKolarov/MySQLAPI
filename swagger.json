@@ -12,9 +12,18 @@
     "host": "localhost:3000",
     "basePath": "/api",
     "tags": [{
-        "name": "Users",
-        "description": "API for users in the system"
-    }],
+            "name": "Users",
+            "description": "Add users in the system"
+        },
+        {
+            "name": "Statuses",
+            "description": "Add status to the user's data"
+        },
+        {
+            "name": "Info",
+            "description": "Add information to the user's data"
+        }
+    ],
     "schemes": [
         "http"
     ],
@@ -242,6 +251,115 @@
                     }
                 }
             }
+        },
+        "/info": {
+            "post": {
+                "tags": [
+                    "Info"
+                ],
+                "description": "Create new info in system",
+                "parameters": [{
+                    "name": "info",
+                    "in": "body",
+                    "description": "Add info for a specific user",
+                    "schema": {
+                        "$ref": "#/definitions/Info"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New info is created",
+                        "schema": {
+                            "$ref": "#/definitions/Info Response"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Info"
+                ],
+                "summary": "Get all info in the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Info List"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update info with given info id",
+                "tags": [
+                    "Info"
+                ],
+                "parameters": [{
+                    "name": "info",
+                    "in": "body",
+                    "description": "Info with new values of properties",
+                    "schema": {
+                        "$ref": "#/definitions/Info"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Info is updated",
+                        "schema": {
+                            "$ref": "#/definitions/Info Id"
+                        }
+                    }
+                }
+            }
+        },
+        "/info/{userId}": {
+            "parameters": [{
+                "name": "userId",
+                "in": "path",
+                "required": true,
+                "description": "ID of the user which info we want to find",
+                "type": "string"
+            }],
+            "get": {
+                "tags": [
+                    "Info"
+                ],
+                "summary": "Get info with given user ID",
+                "responses": {
+                    "200": {
+                        "description": "Info is found",
+                        "schema": {
+                            "$ref": "#/definitions/Get Info"
+                        }
+                    }
+                }
+            }
+        },
+        "/info/{infoId}": {
+            "parameters": [{
+                "name": "infoId",
+                "in": "path",
+                "required": true,
+                "description": "ID of the user's info that we want to delete",
+                "type": "string"
+            }],
+            "delete": {
+                "summary": "Delete info with given info ID",
+                "tags": [
+                    "Info"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Info is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Info Delete"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -422,14 +540,14 @@
                 "Message": {
                     "type": "string"
                 },
-                "Users": {
+                "Statuses": {
                     "type": "array",
                     "$ref": "#/definitions/Status Response"
                 }
             },
             "example": {
                 "Message": "Success",
-                "Status": [{
+                "Statuses": [{
                     "user_status_id": 1,
                     "user_id_fk": 1,
                     "status_text": "Currently working for the Galactic Empire",
@@ -445,6 +563,109 @@
             },
             "example": {
                 "Message": "Status deleted"
+            }
+        },
+        "Info": {
+            "required": [
+                "userId",
+                "name",
+                "location"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string",
+                    "uniqueItems": false
+                },
+                "location": {
+                    "type": "string",
+                    "uniqueItems": false
+                }
+            },
+            "example": {
+                "userId": "1",
+                "name": "Darth Vader",
+                "location": "Mustafar"
+            }
+        },
+        "Info Response": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Message": "Info Added!"
+            }
+        },
+        "Info List": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "Infoes": {
+                    "type": "array",
+                    "$ref": "#/definitions/Info Response"
+                }
+            },
+            "example": {
+                "Message": "Success",
+                "Information": [{
+                        "user_info_id": 1,
+                        "user_id_fk": 1,
+                        "user_name": "Darth Vader",
+                        "user_location": "Mustafar"
+                    },
+                    {
+                        "user_info_id": 2,
+                        "user_id_fk": 2,
+                        "user_name": "Obi-Wan Kenobi",
+                        "user_location": "Tatooine"
+                    }
+                ]
+            }
+        },
+        "Info Id": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Message": "Information updated"
+            }
+        },
+        "Get Info": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "Information": {
+                    "type": "array",
+                    "$ref": "#/definitions/Info Response"
+                }
+            },
+            "example": {
+                "Message": "Success",
+                "Info": [{
+                    "user_info_id": 1,
+                    "user_id_fk": 1,
+                    "user_name": "Darth Vader",
+                    "user_location": "Mustafar"
+                }]
+            }
+        },
+        "Info Delete": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Message": "Info deleted"
             }
         }
     }
