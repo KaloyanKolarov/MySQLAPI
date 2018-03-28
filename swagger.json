@@ -82,7 +82,7 @@
                     "200": {
                         "description": "User is updated",
                         "schema": {
-                            "$ref": "#/definitions/User Email"
+                            "$ref": "#/definitions/Update User Email"
                         }
                     }
                 }
@@ -105,7 +105,7 @@
                     "200": {
                         "description": "User is found",
                         "schema": {
-                            "$ref": "#/definitions/User ID"
+                            "$ref": "#/definitions/Get User by ID"
                         }
                     }
                 }
@@ -128,7 +128,116 @@
                     "200": {
                         "description": "User is deleted",
                         "schema": {
-                            "$ref": "#/definitions/User Delete"
+                            "$ref": "#/definitions/Delete User"
+                        }
+                    }
+                }
+            }
+        },
+        "/statuses": {
+            "post": {
+                "tags": [
+                    "Statuses"
+                ],
+                "description": "Create new status in system",
+                "parameters": [{
+                    "name": "status",
+                    "in": "body",
+                    "description": "Add status for a specific user",
+                    "schema": {
+                        "$ref": "#/definitions/Status"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New status is created",
+                        "schema": {
+                            "$ref": "#/definitions/Status Response"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Get all statuses in the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Statuses List"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update status with given status id",
+                "tags": [
+                    "Statuses"
+                ],
+                "parameters": [{
+                    "name": "status",
+                    "in": "body",
+                    "description": "Status with new values of properties",
+                    "schema": {
+                        "$ref": "#/definitions/Status"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Status is updated",
+                        "schema": {
+                            "$ref": "#/definitions/Status Id"
+                        }
+                    }
+                }
+            }
+        },
+        "/statuses/{userId}": {
+            "parameters": [{
+                "name": "userId",
+                "in": "path",
+                "required": true,
+                "description": "ID of the user which status we want to find",
+                "type": "string"
+            }],
+            "get": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Get status with given user ID",
+                "responses": {
+                    "200": {
+                        "description": "Status is found",
+                        "schema": {
+                            "$ref": "#/definitions/Get Status"
+                        }
+                    }
+                }
+            }
+        },
+        "/statuses/{statusId}": {
+            "parameters": [{
+                "name": "statusId",
+                "in": "path",
+                "required": true,
+                "description": "ID of the user's status that we want to delete",
+                "type": "string"
+            }],
+            "delete": {
+                "summary": "Delete status with given status ID",
+                "tags": [
+                    "Statuses"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Status is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Status Delete"
                         }
                     }
                 }
@@ -184,7 +293,7 @@
                 "Message": "Updated the password for email darth@vader.com"
             }
         },
-        "Delete User Response": {
+        "Delete User": {
             "properties": {
                 "Message": {
                     "type": "string"
@@ -194,13 +303,14 @@
                 "Message": "Deleted the user with email darth@vader.com"
             }
         },
-        "Get User by ID Response": {
+        "Get User by ID": {
             "properties": {
                 "Message": {
                     "type": "string"
                 },
                 "Users": {
-                    "type": "array"
+                    "type": "array",
+                    "$ref": "#/definitions/User Response"
                 }
             },
             "example": {
@@ -213,13 +323,14 @@
                 }]
             }
         },
-        "Users List Response": {
+        "Users List": {
             "properties": {
                 "Message": {
                     "type": "string"
                 },
                 "Users": {
-                    "type": "array"
+                    "type": "array",
+                    "$ref": "#/definitions/User Response"
                 }
             },
             "example": {
@@ -239,9 +350,102 @@
                 ]
             }
         },
-        "Users": {
-            "type": "array",
-            "$ref": "#/definitions/User"
+        "Status": {
+            "required": [
+                "userId",
+                "status"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "status": {
+                    "type": "string",
+                    "uniqueItems": false
+                }
+            },
+            "example": {
+                "userId": "1",
+                "Status": "Currently working for the Galactic Empire"
+            }
+        },
+        "Status Response": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Message": "Status Added!"
+            }
+        },
+        "Statuses List": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "Statuses": {
+                    "type": "array",
+                    "$ref": "#/definitions/Status Response"
+                }
+            },
+            "example": {
+                "Message": "Success",
+                "Statuses": [{
+                        "user_status_id": 1,
+                        "user_id_fk": 1,
+                        "status_text": "Currently working for the Galactic Empire",
+                        "status_time": "2018-03-28T10:49:45.000Z"
+                    },
+                    {
+                        "user_status_id": 2,
+                        "user_id_fk": 2,
+                        "status_text": "Currently living in Tatooine",
+                        "status_time": "2018-03-28T10:49:45.000Z"
+                    }
+                ]
+            }
+        },
+        "Status Id": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Message": "Status updated"
+            }
+        },
+        "Get Status": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "Users": {
+                    "type": "array",
+                    "$ref": "#/definitions/Status Response"
+                }
+            },
+            "example": {
+                "Message": "Success",
+                "Status": [{
+                    "user_status_id": 1,
+                    "user_id_fk": 1,
+                    "status_text": "Currently working for the Galactic Empire",
+                    "status_time": "2018-03-28T10:49:45.000Z"
+                }]
+            }
+        },
+        "Status Delete": {
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "Message": "Status deleted"
+            }
         }
     }
 }
