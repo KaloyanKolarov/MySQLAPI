@@ -2,8 +2,8 @@
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
-        "title": "Yet Another Node.js Blogg Application API",
-        "description": "Yet Another Node.js Blogg Application API",
+        "title": "API Documentation",
+        "description": "Express API server with Node.js and MariaDB",
         "license": {
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT"
@@ -152,15 +152,12 @@
                 }
             },
             "example": {
-                "email": "kaloyan@kaloyan.org",
+                "email": "darth@vader.com",
                 "password": "123456"
             }
         },
         "User Response": {
             "properties": {
-                "Error": {
-                    "type": "boolean"
-                },
                 "Message": {
                     "type": "string"
                 },
@@ -172,45 +169,33 @@
                 }
             },
             "example": {
-                "Error": false,
                 "Message": "User Added!",
-                "User": "kaloyan@kaloyan.org",
+                "User": "darth@vader.com",
                 "User_ID": "1"
             }
         },
-        "User Email": {
+        "Update User Email": {
             "properties": {
-                "Error": {
-                    "type": "boolean"
-                },
                 "Message": {
                     "type": "string"
                 }
             },
             "example": {
-                "Error": false,
-                "Message": "Updated the password for email kaloyan@kaloyan.org"
+                "Message": "Updated the password for email darth@vader.com"
             }
         },
-        "User Delete": {
+        "Delete User Response": {
             "properties": {
-                "Error": {
-                    "type": "boolean"
-                },
                 "Message": {
                     "type": "string"
                 }
             },
             "example": {
-                "Error": false,
-                "Message": "Deleted the user with email kaloyan@kaloyan.org"
+                "Message": "Deleted the user with email darth@vader.com"
             }
         },
-        "User ID": {
+        "Get User by ID Response": {
             "properties": {
-                "Error": {
-                    "type": "boolean"
-                },
                 "Message": {
                     "type": "string"
                 },
@@ -219,21 +204,17 @@
                 }
             },
             "example": {
-                "Error": false,
                 "Message": "Success",
                 "Users": [{
-                    "user_id": 12,
-                    "user_email": "kaloyan@kaloyan.org",
+                    "user_id": 1,
+                    "user_email": "darth@vader.com",
                     "user_password": "202cb962ac59075b964b07152d234b70",
                     "user_join_date": "2018-03-27T08:38:28.000Z"
                 }]
             }
         },
-        "Users List": {
+        "Users List Response": {
             "properties": {
-                "Error": {
-                    "type": "boolean"
-                },
                 "Message": {
                     "type": "string"
                 },
@@ -242,31 +223,18 @@
                 }
             },
             "example": {
-                "Error": false,
                 "Message": "Success",
                 "Users": [{
-                        "user_id": 12,
-                        "user_email": "kaloyan@kaloyan.org",
+                        "user_id": 1,
+                        "user_email": "darth@vader.com",
                         "user_password": "202cb962ac59075b964b07152d234b70",
                         "user_join_date": "2018-03-27T08:38:28.000Z"
                     },
                     {
-                        "user_id": 14,
-                        "user_email": "test@kaloyan.org",
+                        "user_id": 2,
+                        "user_email": "obi_wan@theforce.com",
                         "user_password": "e10adc3949ba59abbe56e057f20f883e",
                         "user_join_date": "2018-03-27T08:59:28.000Z"
-                    },
-                    {
-                        "user_id": 16,
-                        "user_email": "test1@kaloyan.org",
-                        "user_password": "e10adc3949ba59abbe56e057f20f883e",
-                        "user_join_date": "2018-03-27T09:00:13.000Z"
-                    },
-                    {
-                        "user_id": 17,
-                        "user_email": "test2@kaloyan.org",
-                        "user_password": "e10adc3949ba59abbe56e057f20f883e",
-                        "user_join_date": "2018-03-27T09:18:18.000Z"
                     }
                 ]
             }
